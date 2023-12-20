@@ -20,7 +20,25 @@ interface Pikod {
   name: string;
   id: string;
 }
+
+interface Magad {
+  name: string;
+  id: string;
+  magadal: string;
+}
+
+
   
+interface Magadal {
+  name: string;
+  id: string;
+}
+
+interface Makat {
+  name: string;
+  id: string;
+}
+
 
 const generateRandomGdod = (hativas: Hativa[]): Gdod[] => {
   const gdodList: Gdod[] = [];
@@ -143,7 +161,7 @@ const generateRandomOgda = (pikods: Pikod[]): Ogda[] => {
   return ogdaList;
 };
 
-const pikosNames: string[] = [
+const pikodNames: string[] = [
     'פיקוד צפון',
     'פיקוד דרום',
     'פיקוד מרכז',
@@ -163,7 +181,7 @@ const pikosNames: string[] = [
   
     for (let i = 1; i <= numberOfPikods; i++) {
       const pikodNumber = i.toString().padStart(3, '0');
-      const pikodLocation = pikosNames[Math.floor(Math.random() * pikosNames.length)];
+      const pikodLocation = pikodNames[Math.floor(Math.random() * pikodNames.length)];
       const pikodId = `p${pikodNumber}`;
   
       const pikod: Pikod = {
@@ -219,3 +237,142 @@ const magadalNames = [
     'צנחן',
     'תיקול',
   ];
+
+  
+const generateRandomMagadals = (): Magadal[] => {
+  const numberOfMagadals = 10;
+  const magadalList: Magadal[] = [];
+  for (let i = 1; i <= numberOfMagadals; i++) {
+    const magadalNumber = Math.floor(Math.random() * 200).toString().padStart(3, '0');
+    const magadalId = `magadal-${magadalNumber}`;
+    const magadalName = magadalNames[Math.floor(Math.random() * (magadalNames.length - 1))];
+    
+
+    const magadal: Magadal = {
+      name: magadalName,
+      id: magadalId,
+    };
+
+    magadalList.push(magadal);
+  }
+
+  return magadalList;
+};
+
+const magadNames = [
+  'איתן',
+  'דביר',
+  'יובל',
+  'ניב',
+  'חני',
+  'קורן',
+  'טוני',
+  'דניאל',
+  'שירה',
+  'רוני',
+  'אביב',
+  'מיה',
+  'אלון',
+  'ליאון',
+  'עידן',
+  'ספיר',
+  'נעם',
+  'ליה',
+  'אורי',
+  'אילה',
+  'רומי',
+  'נועה',
+  'מיכאל',
+  'גיל',
+  'אור',
+  'טל',
+  'אילן',
+  'מיה',
+  'שחר',
+];
+
+
+const generateRandomMagads = (magadalList: Magadal[]): Magad[] => {
+const minMagads = 8;
+const numOfMagads = Math.floor(Math.random() * (magadalList.length * 3 - minMagads + 1) + minMagads);
+const magadList: Magad[] = [];
+
+for (let i = 1; i <= numOfMagads; i++) {
+  const magadNumber = Math.floor(Math.random() * 200).toString().padStart(3, '0');
+  const magadId = `magad-${magadNumber}`;
+  const magadName = magadNames[Math.floor(Math.random() * magadNames.length)];
+  const randIndex = Math.floor(Math.random() * (magadalList.length - 1));
+  const magad: Magad = {
+    name: magadalList[randIndex].name + " " + magadName,
+    id: magadId,
+    magadal:  magadalList[randIndex].id
+  };
+
+  magadList.push(magad);
+}
+
+return magadList;
+};
+
+
+interface Mkabaz {
+  name: string;
+  id: string;
+  magad: string;
+}
+
+const generateRandomMkabazs = (magadList: Magad[]): Mkabaz[] => {
+  const minMkabazs = 12;
+  const maxMkabazs = Math.floor(Math.random() * (magadList.length * 3 - minMkabazs + 1)) + minMkabazs;
+  const mkabazList: Mkabaz[] = [];
+
+  for (let i = 1; i <= maxMkabazs; i++) {
+    const randomMagad = magadList[Math.floor(Math.random() * magadList.length)];
+    const mkabazNumber = i;
+    const mkabazId = `mkabaz-${mkabazNumber}`;
+    const mkabazName = `${randomMagad.name}-${mkabazNumber}`;
+
+    const mkabaz: Mkabaz = {
+      name: mkabazName,
+      id: mkabazId,
+      magad: randomMagad.id
+    };
+
+    mkabazList.push(mkabaz);
+  }
+
+  return mkabazList;
+};
+
+interface Makat {
+  name: string;
+  id: string;
+  mkabaz: string;
+}
+
+const generateRandomMakats = (mkabazList: Mkabaz[]): Makat[] => {
+  const minMakats = 24;
+  const maxMakats = Math.min(mkabazList.length * 3, mkabazList.length + minMakats);
+  const makatList: Makat[] = [];
+
+  for (let i = 1; i <= maxMakats; i++) {
+    const randomMakatNumber = Math.floor(Math.random() * 100000).toString().padStart(6, '0');
+    const randomMkabaz = mkabazList[Math.floor(Math.random() * mkabazList.length)];
+
+    const makat: Makat = {
+      name: randomMakatNumber,
+      id: `makat-${randomMakatNumber}`,
+      mkabaz: randomMkabaz.id,
+    };
+
+    makatList.push(makat);
+  }
+
+  return makatList;
+};
+
+const magadals = generateRandomMagadals();
+const magads = generateRandomMagads(magadals);
+const mkabazs = generateRandomMkabazs(magads)
+const makats = generateRandomMakats(mkabazs);
+console.log(makats);
