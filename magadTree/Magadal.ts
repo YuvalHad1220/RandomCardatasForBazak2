@@ -38,9 +38,15 @@ export const generateRandomMagadals = (): Magadal[] => {
     const numberOfMagadals = 10;
     const magadalList: Magadal[] = [];
     const magadalNameCopy = [...magadalNames];
+    const usedMagadalNumbers = new Set<string>();
     shuffle(magadalNameCopy);
     for (let i = 1; i <= numberOfMagadals; i++) {
-      const magadalNumber = Math.floor(Math.random() * 200).toString().padStart(3, '0');
+      let magadalNumber: string;
+      do {
+        magadalNumber = Math.floor(Math.random() * 200).toString().padStart(3, '0');
+      }
+      while (usedMagadalNumbers.has(magadalNumber));
+      usedMagadalNumbers.add(magadalNumber);
       const magadalId = `magadal-${magadalNumber}`;
       const magadalName = magadalNameCopy.pop();
       

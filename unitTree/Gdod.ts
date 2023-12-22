@@ -18,9 +18,15 @@ const gdodSchema = new Schema<Gdod>({
 
 export const generateRandomGdod = (hativas: Hativa[]): Gdod[] => {
     const gdodList: Gdod[] = [];
-  
+    const usedGdodNumbers = new Set<string>();
     for (let i = 1; i <= hativas.length * 10; i++) {
-      const gdodNumber = Math.floor(Math.random() * 200).toString().padStart(3, '0');
+      let gdodNumber: string;
+      do {
+        gdodNumber = Math.floor(Math.random() * 800).toString().padStart(3, '0');
+      }
+      while (usedGdodNumbers.has(gdodNumber))
+      usedGdodNumbers.add(gdodNumber);
+    
       const gdodName = `גדוד-${gdodNumber}`;
       const gdodId = `g${gdodNumber}`;
   

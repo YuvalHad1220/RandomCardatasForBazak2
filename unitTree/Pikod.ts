@@ -28,12 +28,18 @@ export const generateRandomPikod = (): Pikod[] => {
   const numberOfPikods = 4;
 
   const pikodList: Pikod[] = [];
-
+  const usedPikodNumbers = new Set<string>();
   const pikodNamesCopy = [...pikodNames];
   shuffle(pikodNamesCopy);
 
   for (let i = 1; i <= numberOfPikods; i++) {
-    const pikodNumber = i.toString().padStart(3, '0');
+    let pikodNumber: string;
+    do {
+      pikodNumber = i.toString().padStart(3, '0');
+    }
+    while (usedPikodNumbers.has(pikodNumber));
+    usedPikodNumbers.add(pikodNumber);
+    
     const pikodLocation = pikodNamesCopy.pop();
     const pikodId = `p${pikodNumber}`;
 

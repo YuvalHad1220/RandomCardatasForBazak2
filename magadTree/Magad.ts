@@ -49,9 +49,15 @@ export const generateRandomMagads = (magadalList: Magadal[]): Magad[] => {
     const minMagads = 8;
     const numOfMagads = Math.floor(Math.random() * (magadalList.length * 3 - minMagads + 1) + minMagads);
     const magadList: Magad[] = [];
+    const usedMagadNumbers = new Set<string>();
     
     for (let i = 1; i <= numOfMagads; i++) {
-      const magadNumber = Math.floor(Math.random() * 200).toString().padStart(3, '0');
+      let magadNumber: string;
+      do {
+        magadNumber = Math.floor(Math.random() * 200).toString().padStart(3, '0');
+      }
+      while (usedMagadNumbers.has(magadNumber));
+      usedMagadNumbers.add(magadNumber);
       const magadId = `magad-${magadNumber}`;
       const magadName = magadNames[Math.floor(Math.random() * magadNames.length)];
       const randIndex = Math.floor(Math.random() * (magadalList.length - 1));

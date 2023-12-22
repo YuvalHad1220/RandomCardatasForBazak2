@@ -71,11 +71,16 @@ export const generateRandomOgda = (pikods: Pikod[]): Ogda[] => {
     const minOgdas = 8;
     const maxOgdas = Math.floor(pikods.length * 4);
     const numberOfOgdas = Math.floor(Math.random() * (maxOgdas - minOgdas + 1)) + minOgdas;
-  
     const ogdaList: Ogda[] = [];
-  
+    const usedOgdaNumbers = new Set<string>();
+
     for (let i = 1; i <= numberOfOgdas; i++) {
-      const ogdaNumber = i.toString().padStart(3, '0');
+      let ogdaNumber: string;
+      do {
+        ogdaNumber  = i.toString().padStart(3, '0');
+      }
+      while (usedOgdaNumbers.has(ogdaNumber));
+      usedOgdaNumbers.add(ogdaNumber);
       const ogdaName = ogdaNames[Math.floor(Math.random() * ogdaNames.length)];
       const ogdaId = `o${ogdaNumber}`;
       const ogda: Ogda = {

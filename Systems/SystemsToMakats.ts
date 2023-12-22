@@ -3,7 +3,7 @@ import { Makat } from "../magadTree/Makat";
 import mongoose, { Schema, Document } from "mongoose";
 
 // Define the interface for your document
-interface SystemToMakat {
+export interface SystemToMakat {
     makatId: string;
     systemId: mongoose.Types.ObjectId;
 }

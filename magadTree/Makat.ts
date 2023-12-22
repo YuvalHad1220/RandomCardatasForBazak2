@@ -17,9 +17,15 @@ export const generateRandomMakats = (mkabazList: Mkabaz[]): Makat[] => {
     const minMakats = 24;
     const maxMakats = Math.min(mkabazList.length * 3, mkabazList.length + minMakats);
     const makatList: Makat[] = [];
+    const usedMakatNumbers = new Set<string>();
   
     for (let i = 1; i <= maxMakats; i++) {
-      const randomMakatNumber = Math.floor(Math.random() * 100000).toString().padStart(6, '0');
+      let randomMakatNumber: string;
+      do {
+        randomMakatNumber = Math.floor(Math.random() * 100000).toString().padStart(6, '0')
+      }
+      while (usedMakatNumbers.has(randomMakatNumber));
+      usedMakatNumbers.add(randomMakatNumber);
       const randomMkabaz = mkabazList[Math.floor(Math.random() * mkabazList.length)];
   
       const makat: Makat = {

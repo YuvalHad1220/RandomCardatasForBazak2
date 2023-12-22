@@ -16,11 +16,18 @@ export const generateRandomHativa = (ogdas: Ogda[]): Hativa[] => {
     const minHativas = 10;
     const maxHativas = Math.floor(ogdas.length * 4);
     const numberOfHativas = Math.floor(Math.random() * (maxHativas - minHativas + 1)) + minHativas;
+    const usedHativaNumbers = new Set<string>();
   
     const hativaList: Hativa[] = [];
   
     for (let i = 1; i <= numberOfHativas; i++) {
-      const hativaNumber = Math.floor(Math.random() * 100).toString().padStart(3, '0');
+      let hativaNumber: string;
+      do {
+        hativaNumber  = Math.floor(Math.random() * 100).toString().padStart(3, '0')
+      }
+      while (usedHativaNumbers.has(hativaNumber))
+      usedHativaNumbers.add(hativaNumber);
+    
       const hativaName = `חטיבה-${hativaNumber}`;
       const hativaId = `h${hativaNumber}`;
   
@@ -36,4 +43,4 @@ export const generateRandomHativa = (ogdas: Ogda[]): Hativa[] => {
     return hativaList;
   };
 
-export const GdodModel = model("Hativa", hativaSchema);
+export const HativaModel = model("Hativa", hativaSchema);
