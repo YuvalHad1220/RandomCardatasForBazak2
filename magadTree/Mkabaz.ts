@@ -1,10 +1,17 @@
+import { Schema, model } from "mongoose";
 import { Magad } from "./Magad";
 
 export interface Mkabaz {
     name: string;
-    id: string;
+    _id: string;
     magad: string;
 }
+const mkabazSchema = new Schema<Mkabaz>({
+  name: { type: String, required: true },
+  _id: { type: String, required: true },
+  magad: { type: String, required: true },
+});
+
 
 export const generateRandomMkabazs = (magadList: Magad[]): Mkabaz[] => {
     const minMkabazs = 12;
@@ -19,8 +26,8 @@ export const generateRandomMkabazs = (magadList: Magad[]): Mkabaz[] => {
   
       const mkabaz: Mkabaz = {
         name: mkabazName,
-        id: mkabazId,
-        magad: randomMagad.id
+        _id: mkabazId,
+        magad: randomMagad._id
       };
   
       mkabazList.push(mkabaz);
@@ -28,3 +35,5 @@ export const generateRandomMkabazs = (magadList: Magad[]): Mkabaz[] => {
   
     return mkabazList;
   };
+
+export const MkabazModel = model<Mkabaz>('Mkabaz', mkabazSchema);

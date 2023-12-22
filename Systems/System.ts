@@ -1,9 +1,13 @@
 import { shuffle } from "../Shuffle";
+import mongoose, { Schema } from "mongoose";
 
+// Define the interface for your document
 export interface System {
     name: string;
     mashbit: "0" | "1" | "2";
-  }
+    _id: mongoose.Types.ObjectId;
+}
+
 
 const possibleSystemNames = [
     'בלוטופ',
@@ -36,6 +40,7 @@ export const generateSystems = (): System[] => {
     const system: System = {
       name: possibleSystemNames.pop()!,
       mashbit: mashbitValue,
+      _id: new mongoose.Types.ObjectId()
     };
 
     systems.push(system);
@@ -43,3 +48,11 @@ export const generateSystems = (): System[] => {
 
   return systems;
 };
+// Define the schema
+const systemSchema = new Schema<System>({
+  name: { type: String, required: true },
+  mashbit: { type: String, enum: ["0", "1", "2"], required: true },
+});
+
+// Create the model
+export const SystemModel = mongoose.model<System>("System", systemSchema);

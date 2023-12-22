@@ -1,7 +1,15 @@
+import { Schema, model } from "mongoose";
+import { shuffle } from "../Shuffle";
+
 export interface Pikod {
     name: string;
-    id: string;
+    _id: string;
   }
+const pikodSchema = new Schema<Pikod>({
+    name: { type: String, required: true },
+    _id: { type: String, required: true },
+});
+
 
 const pikodNames: string[] = [
     'פיקוד צפון',
@@ -21,14 +29,17 @@ export const generateRandomPikod = (): Pikod[] => {
 
   const pikodList: Pikod[] = [];
 
+  const pikodNamesCopy = [...pikodNames];
+  shuffle(pikodNamesCopy);
+
   for (let i = 1; i <= numberOfPikods; i++) {
     const pikodNumber = i.toString().padStart(3, '0');
-    const pikodLocation = pikodNames[Math.floor(Math.random() * pikodNames.length)];
+    const pikodLocation = pikodNamesCopy.pop();
     const pikodId = `p${pikodNumber}`;
 
     const pikod: Pikod = {
-      name: pikodLocation,
-      id: pikodId,
+      name: pikodLocation!,
+      _id: pikodId,
     };
 
     pikodList.push(pikod);
@@ -36,3 +47,6 @@ export const generateRandomPikod = (): Pikod[] => {
 
   return pikodList;
 };
+
+
+export const PikodModel = model("Pikod", pikodSchema);

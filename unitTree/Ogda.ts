@@ -1,10 +1,18 @@
+import { Schema, model } from "mongoose";
 import { Pikod } from "./Pikod";
 
 export interface Ogda {
     name: string;
-    id: string;
+    _id: string;
     pikod: string;
 }
+
+
+const ogdaSchema = new Schema<Ogda>({
+  name: { type: String, required: true },
+  _id: { type: String, required: true },
+  pikod: { type: String, required: true },
+});
 
 const ogdaNames: string[] = [
     'אוגדת הנשמה',
@@ -72,8 +80,8 @@ export const generateRandomOgda = (pikods: Pikod[]): Ogda[] => {
       const ogdaId = `o${ogdaNumber}`;
       const ogda: Ogda = {
         name: ogdaName,
-        id: ogdaId,
-        pikod: pikods[Math.floor(Math.random() * (pikods.length - 1))].id
+        _id: ogdaId,
+        pikod: pikods[Math.floor(Math.random() * (pikods.length - 1))]._id
       };
   
       ogdaList.push(ogda);
@@ -81,3 +89,5 @@ export const generateRandomOgda = (pikods: Pikod[]): Ogda[] => {
   
     return ogdaList;
   };
+
+export const OgdaModel = model("Ogda", ogdaSchema);

@@ -1,11 +1,18 @@
-import { System } from "typescript";
+import { System } from "../Systems/System";
 import { Makat } from "../magadTree/Makat";
+import mongoose, { Schema, Document } from "mongoose";
 
-export interface SystemToMakat {
+// Define the interface for your document
+interface SystemToMakat {
     makatId: string;
-    systemId: string;
-  }
+    systemId: mongoose.Types.ObjectId;
+}
 
+// Define the schema
+const systemToMakatSchema: Schema = new Schema({
+    makatId: { type: String, required: true },
+    systemId: { type: mongoose.Types.ObjectId, required: true },
+});
 
 export const generateSystemToMakatList = (makats: Makat[], systems: System[]): SystemToMakat[] => {
     const systemToMakatList: SystemToMakat[] = [];
@@ -26,12 +33,16 @@ export const generateSystemToMakatList = (makats: Makat[], systems: System[]): S
       // Create SystemToMakat entries
       for (const randomIndex of randomSystemIndices) {
         const systemToMakat: SystemToMakat = {
-          makatId: makat.id,
-          systemId: systems[randomIndex].id,
-        };
+          makatId: makat._id,
+          systemId: systems[randomIndex]._id,
+        };  
         systemToMakatList.push(systemToMakat);
       }
     }
   
     return systemToMakatList;
   };
+
+// Create the model
+export const SystemToMakatModel = mongoose.model<SystemToMakat>("SystemToMakat", systemToMakatSchema);
+

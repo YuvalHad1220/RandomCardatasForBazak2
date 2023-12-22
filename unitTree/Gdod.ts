@@ -1,12 +1,21 @@
+import { Schema, model } from "mongoose";
 import { Hativa } from "./Hativa";
 
 export interface Gdod {
     name: string;
-    id: string;
+    _id: string;
     sadir: "סדיר" | "לא סדיר";
     hativa: string
   }
-  
+
+const gdodSchema = new Schema<Gdod>({
+    name: { type: String, required: true },
+    _id: { type: String, required: true },
+    sadir: { type: String, enum: ["סדיר", "לא סדיר"], required: true },
+    hativa: { type: String, required: true },
+});
+
+
 export const generateRandomGdod = (hativas: Hativa[]): Gdod[] => {
     const gdodList: Gdod[] = [];
   
@@ -17,9 +26,9 @@ export const generateRandomGdod = (hativas: Hativa[]): Gdod[] => {
   
       const gdod: Gdod = {
         name: gdodName,
-        id: gdodId,
+        _id: gdodId,
         sadir: Math.random() > 0.3 ? "לא סדיר" : "סדיר",
-        hativa: hativas[Math.floor(Math.random() * (hativas.length - 1))].id
+        hativa: hativas[Math.floor(Math.random() * (hativas.length - 1))]._id
       };
   
       gdodList.push(gdod);
@@ -28,3 +37,5 @@ export const generateRandomGdod = (hativas: Hativa[]): Gdod[] => {
     return gdodList;
   };
   
+
+export const GdodModel = model("Gdod", gdodSchema);

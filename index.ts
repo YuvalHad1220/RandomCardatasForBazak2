@@ -1,3 +1,5 @@
+import { generateSystems } from "./Systems/System";
+import { generateSystemToMakatList } from "./Systems/SystemsToMakats";
 import { generateRandomMagads } from "./magadTree/Magad";
 import { generateRandomMagadals } from "./magadTree/Magadal";
 import { generateRandomMakats } from "./magadTree/Makat";
@@ -20,3 +22,9 @@ const hativas = generateRandomHativa(ogdas);
 const gdods = generateRandomGdod(hativas);
 
 console.log(pikods, ogdas, hativas, gdods)
+
+
+const systems = generateSystems();
+const systemsToMakats = generateSystemToMakatList(makats, systems);
+
+console.log(systems, systemsToMakats);

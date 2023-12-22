@@ -1,10 +1,17 @@
+import { Schema, model } from "mongoose";
 import { Magadal } from "./Magadal";
 
 export interface Magad {
     name: string;
-    id: string;
+    _id: string;
     magadal: string;
   }
+
+const magadSchema = new Schema<Magad>({
+    name: { type: String, required: true },
+    _id: { type: String, required: true },
+    magadal: { type: String, required: true },
+});
 
   const magadNames = [
     'איתן',
@@ -50,8 +57,8 @@ export const generateRandomMagads = (magadalList: Magadal[]): Magad[] => {
       const randIndex = Math.floor(Math.random() * (magadalList.length - 1));
       const magad: Magad = {
         name: magadalList[randIndex].name + " " + magadName,
-        id: magadId,
-        magadal:  magadalList[randIndex].id
+        _id: magadId,
+        magadal:  magadalList[randIndex]._id
       };
     
       magadList.push(magad);
@@ -59,3 +66,6 @@ export const generateRandomMagads = (magadalList: Magadal[]): Magad[] => {
     
     return magadList;
     };
+
+
+export const MagadModel = model("Magad", magadSchema);

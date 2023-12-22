@@ -1,10 +1,17 @@
+import { Schema, model } from "mongoose";
 import { Mkabaz } from "./Mkabaz";
 
 export interface Makat {
     name: string;
-    id: string;
+    _id: string;
     mkabaz: string;
   }
+
+const makatSchema = new Schema<Makat>({
+    name: { type: String, required: true },
+    _id: { type: String, required: true },
+    mkabaz: { type: String, required: true },
+});
 
 export const generateRandomMakats = (mkabazList: Mkabaz[]): Makat[] => {
     const minMakats = 24;
@@ -17,8 +24,8 @@ export const generateRandomMakats = (mkabazList: Mkabaz[]): Makat[] => {
   
       const makat: Makat = {
         name: randomMakatNumber,
-        id: `makat-${randomMakatNumber}`,
-        mkabaz: randomMkabaz.id,
+        _id: `makat-${randomMakatNumber}`,
+        mkabaz: randomMkabaz._id,
       };
   
       makatList.push(makat);
@@ -26,3 +33,5 @@ export const generateRandomMakats = (mkabazList: Mkabaz[]): Makat[] => {
   
     return makatList;
   };
+
+export const MakatModel = model<Makat>("Makat", makatSchema);

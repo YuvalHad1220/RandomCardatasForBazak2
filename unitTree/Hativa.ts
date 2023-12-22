@@ -1,10 +1,16 @@
+import { Schema, model } from "mongoose";
 import { Ogda } from "./Ogda";
 
 export interface Hativa {
     name: string;
-    id: string;
+    _id: string;
     ogda: string,
 }
+const hativaSchema = new Schema<Hativa>({
+  name: { type: String, required: true },
+  _id: { type: String, required: true },
+  ogda: { type: String, required: true },
+});
 
 export const generateRandomHativa = (ogdas: Ogda[]): Hativa[] => {
     const minHativas = 10;
@@ -20,8 +26,8 @@ export const generateRandomHativa = (ogdas: Ogda[]): Hativa[] => {
   
       const hativa: Hativa = {
         name: hativaName,
-        id: hativaId,
-        ogda: ogdas[Math.floor(Math.random() * (ogdas.length - 1))].id
+        _id: hativaId,
+        ogda: ogdas[Math.floor(Math.random() * (ogdas.length - 1))]._id
       };
   
       hativaList.push(hativa);
@@ -29,3 +35,5 @@ export const generateRandomHativa = (ogdas: Ogda[]): Hativa[] => {
   
     return hativaList;
   };
+
+export const GdodModel = model("Hativa", hativaSchema);
