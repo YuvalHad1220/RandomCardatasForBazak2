@@ -16,21 +16,28 @@ const magads = generateRandomMagads(magadals);
 const mkabazs = generateRandomMkabazs(magads);
 const makats = generateRandomMakats(mkabazs);
 
+console.log("created magad tree")
+
 // console.log(magadals, magads, mkabazs, makats)
 
 const pikods = generateRandomPikod();
 const ogdas = generateRandomOgda(pikods);
 const hativas = generateRandomHativa(ogdas);
 const gdods = generateRandomGdod(hativas);
+console.log("created unit tree")
+
 // console.log(pikods, ogdas, hativas, gdods)
 
 
 const systems = generateSystems();
 const systemsToMakats = generateSystemToMakatList(makats, systems);
 
+console.log("created systems data")
+
 // console.log(systems, systemsToMakats);
 
 const cardatas = generateRandomCardatas(220_000, makats, gdods, systemsToMakats);
+console.log("created cardatas. preparing to insert..")
 
 // Define a generic interface for documents
 interface InsertDocument<T> {
