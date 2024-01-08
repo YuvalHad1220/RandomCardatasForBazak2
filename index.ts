@@ -1,6 +1,4 @@
 import mongoose, { Document, Model } from "mongoose";
-import { System, SystemModel, generateSystems } from "./Systems/System";
-import { SystemToMakat, SystemToMakatModel, generateSystemToMakatList } from "./Systems/SystemsToMakats";
 import { Magad, MagadModel, generateRandomMagads } from "./magadTree/Magad";
 import { Magadal, MagadalModel, generateRandomMagadals } from "./magadTree/Magadal";
 import { Makat, MakatModel, generateRandomMakats } from "./magadTree/Makat";
@@ -32,7 +30,7 @@ console.log("created unit tree")
 const carTypes = generateCarType()
 // console.log(systems, systemsToMakats);
 
-const cardatas = generateRandomCardatas(220_000, makats, gdods, carTypes);
+const cardatas = generateRandomCardatas(500, makats, gdods, carTypes);
 console.log("created cardatas. preparing to insert..")
 
 // Define a generic interface for documents
@@ -42,7 +40,7 @@ interface InsertDocument<T> {
 }
 
 // Function to insert documents of a specific type
-const insertDocuments = async <T>(data: InsertDocument<T>): Promise<void> => {
+const insertDocuments = async (data: InsertDocument<any>): Promise<void> => {
   try {
       await data.model.insertMany(data.docs);
       console.log(`${data.model.modelName} documents inserted successfully.`);

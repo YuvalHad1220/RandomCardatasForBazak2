@@ -1,7 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { Makat } from "../magadTree/Makat";
 import { Gdod } from "../unitTree/Gdod";
-import { SystemToMakat } from "../Systems/SystemsToMakats";
 import { carTypeInterface } from "../Cartype/Cartype";
 
 export interface Cardata {
@@ -20,13 +19,6 @@ const cardataSchema = new Schema<Cardata>({
     carTypeId: { type: mongoose.Schema.Types.ObjectId },
 });
 
-
-
-// Function to generate random dates within the specified range
-const getRandomDateInRange = (start: Date, end: Date): Date => {
-    const randomTime = start.getTime() + Math.random() * (end.getTime() - start.getTime());
-    return new Date(randomTime);
-};
 
 // Function to generate random 8-digit car number
 const generateRandomCarNumber = (): string => {
