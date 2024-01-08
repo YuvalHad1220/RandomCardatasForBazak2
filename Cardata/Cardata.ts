@@ -2,45 +2,22 @@ import mongoose, { Schema } from "mongoose";
 import { Makat } from "../magadTree/Makat";
 import { Gdod } from "../unitTree/Gdod";
 import { SystemToMakat } from "../Systems/SystemsToMakats";
+import { carTypeInterface } from "../Cartype/Cartype";
 
 export interface Cardata {
     _id: mongoose.Types.ObjectId;
-    carnumber: string;
-    gdod?: string;
-    makat: string;
-    stand: "הכן" | "סדיר" | "החי";
-    updatedBy?: string;
-    createdAt: Date;
-    updatedAt: Date;
-    expected_repair?: string;
-    status: "פעיל" | "מושבת";
-    tipuls?: any[];
-    systems?: {
-        systemType: mongoose.Types.ObjectId;
-        kashir: boolean;
-    }[];
+    carnumber:  String,
+    gdodId: String,
+    makatId: String,
+    carTypeId: mongoose.Types.ObjectId,
 }
 
 // Define the schema
 const cardataSchema = new Schema<Cardata>({
-    carnumber: { type: String, required: true },
-    gdod: { type: String },
-    makat: { type: String, required: true },
-    stand: { type: String, required: true },
-    updatedBy: { type: String },
-    createdAt: { type: Date, required: true },
-    updatedAt: { type: Date, required: true },
-    expected_repair: { type: String },
-    status: { type: String, enum: ["פעיל", "מושבת"], required: true },
-    tipuls: { type: Array },
-    systems: {
-        type: [
-            {
-                systemType: { type: mongoose.Types.ObjectId, required: true },
-                kashir: { type: Boolean, required: true },
-            },
-        ],
-    },
+    carnumber: { type: String },
+    gdodId: { type: String },
+    makatId: { type: String },
+    carTypeId: { type: mongoose.Schema.Types.ObjectId },
 });
 
 
@@ -61,47 +38,20 @@ const getRandomElement = <T>(array: T[]): T => {
     return array[Math.floor(Math.random() * array.length)];
 };
 
-export const generateRandomCardatas = (count: number, makats: Makat[], gdods: Gdod[], systemsToMakats: SystemToMakat[]): Cardata[] => {
+export const generateRandomCardatas = (count: number, makats: Makat[], gdods: Gdod[], cartypeArr: carTypeInterface[]): Cardata[] => {
     const cardataList: Cardata[] = [];
-    const statusOptions: Cardata["status"][] = ["פעיל", "מושבת"];
-    const standOptions: Cardata["stand"][] = ["הכן", "סדיר", "החי"];
-
-    const startDate = new Date("2021-12-12");
-    const endDate = new Date();
+    
 
     for (let i = 0; i < count; i++) {
-        const createdAt = getRandomDateInRange(startDate, endDate);
-        const updatedAt = getRandomDateInRange(createdAt, endDate);
-
-        const randomStatus = getRandomElement(statusOptions);
-        const randomStand = getRandomElement(standOptions);
         const randomMakat = getRandomElement(makats)
 
         const cardata: Cardata = {
             _id: new mongoose.Types.ObjectId(),
             carnumber: generateRandomCarNumber(),
-            stand: randomStand,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            status: randomStatus,
-            makat: randomMakat._id,
+            makatId: randomMakat._id,
+            gdodId: getRandomElement(gdods)._id,
+            carTypeId: getRandomElement(cartypeArr)._id,
         };
-
-        if (Math.random() > 0.2) {
-            cardata.gdod = getRandomElement(gdods)._id;
-        }
-
-        if (Math.random() > 0.7){
-            const systemsOfMakat = systemsToMakats.filter(systemToMakatItem => systemToMakatItem.makatId === cardata.makat);
-            if (systemsOfMakat.length > 0){
-                const withKshirot = systemsOfMakat.map(systemToMakat => ({
-                    systemType: systemToMakat.systemId,
-                    kashir: true,
-                })).slice(0, Math.floor(Math.random() * systemsOfMakat.length))
-
-                cardata.systems = withKshirot;
-            }
-        }
 
         cardataList.push(cardata);
     }

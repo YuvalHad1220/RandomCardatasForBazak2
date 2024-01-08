@@ -10,6 +10,7 @@ import { Hativa, HativaModel, generateRandomHativa } from "./unitTree/Hativa";
 import { Ogda, OgdaModel, generateRandomOgda } from "./unitTree/Ogda";
 import { Pikod, PikodModel, generateRandomPikod } from "./unitTree/Pikod";
 import { CardataModel, generateRandomCardatas } from "./Cardata/Cardata";
+import { CartypeModel, generateCarType } from "./Cartype/Cartype";
 
 const magadals = generateRandomMagadals();
 const magads = generateRandomMagads(magadals);
@@ -28,15 +29,10 @@ console.log("created unit tree")
 
 // console.log(pikods, ogdas, hativas, gdods)
 
-
-const systems = generateSystems();
-const systemsToMakats = generateSystemToMakatList(makats, systems);
-
-console.log("created systems data")
-
+const carTypes = generateCarType()
 // console.log(systems, systemsToMakats);
 
-const cardatas = generateRandomCardatas(220_000, makats, gdods, systemsToMakats);
+const cardatas = generateRandomCardatas(220_000, makats, gdods, carTypes);
 console.log("created cardatas. preparing to insert..")
 
 // Define a generic interface for documents
@@ -56,7 +52,7 @@ const insertDocuments = async <T>(data: InsertDocument<T>): Promise<void> => {
 };
 
 // Connect to the MongoDB database
-mongoose.connect('mongodb://localhost:27017/Bazak-stress').then(async () => {
+mongoose.connect('mongodb://localhost:27017/TowingLogDB').then(async () => {
     // Define an array of insert operations
     const insertOperations = [
         { model: MagadalModel, docs: magadals },
@@ -67,8 +63,7 @@ mongoose.connect('mongodb://localhost:27017/Bazak-stress').then(async () => {
         { model: OgdaModel, docs: ogdas },
         { model: HativaModel, docs: hativas },
         { model: GdodModel, docs: gdods },
-        { model: SystemModel, docs: systems },
-        { model: SystemToMakatModel, docs: systemsToMakats },
+        { model: CartypeModel, docs: carTypes },
         { model: CardataModel, docs: cardatas}
     ];
 
