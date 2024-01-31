@@ -36,7 +36,7 @@ console.log("created systems data")
 
 // console.log(systems, systemsToMakats);
 
-const cardatas = generateRandomCardatas(220_000, makats, gdods, systemsToMakats);
+const cardatas = generateRandomCardatas(4000, makats, gdods, systemsToMakats);
 console.log("created cardatas. preparing to insert..")
 
 // Define a generic interface for documents

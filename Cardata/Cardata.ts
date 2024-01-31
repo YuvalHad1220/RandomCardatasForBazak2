@@ -7,6 +7,8 @@ export interface Cardata {
     _id: mongoose.Types.ObjectId;
     carnumber: string;
     gdod?: string;
+    zminot: "זמין" | "לא זמין";
+    kshirot: "כשיר" | "לא כשיר";
     makat: string;
     stand: "הכן" | "סדיר" | "החי";
     updatedBy?: string;
@@ -27,6 +29,8 @@ const cardataSchema = new Schema<Cardata>({
     gdod: { type: String },
     makat: { type: String, required: true },
     stand: { type: String, required: true },
+    kshirot: {type: String, required: true},
+    zminot: {type: String, required: true},
     updatedBy: { type: String },
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true },
@@ -78,6 +82,8 @@ export const generateRandomCardatas = (count: number, makats: Makat[], gdods: Gd
         const randomMakat = getRandomElement(makats)
 
         const cardata: Cardata = {
+            kshirot: Math.random() > 0.5 ? "כשיר" : "לא כשיר",
+            zminot: Math.random() > 0.5 ? "זמין" : "לא זמין",
             _id: new mongoose.Types.ObjectId(),
             carnumber: generateRandomCarNumber(),
             stand: randomStand,
