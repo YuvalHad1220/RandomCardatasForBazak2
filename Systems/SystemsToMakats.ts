@@ -44,5 +44,5 @@ export const generateSystemToMakatList = (makats: Makat[], systems: System[]): S
   };
 
 // Create the model
-export const SystemToMakatModel = mongoose.model<SystemToMakat>("SystemToMakat", systemToMakatSchema);
+export const SystemToMakatModel = mongoose.model<SystemToMakat>("SystemsToMakats", systemToMakatSchema);
 
